@@ -1,0 +1,40 @@
+<view class="container">
+  <scroll-view scroll-x class="tab-scroll">
+    <view class="tab-row">
+      <view
+        wx:for="{{tabs}}"
+        wx:key="key"
+        class="tab-item {{activeTab === item.key ? 'tab-active' : ''}}"
+        bindtap="onSwitchTab"
+        data-key="{{item.key}}"
+      >{{item.label}}</view>
+    </view>
+  </scroll-view>
+
+  <view wx:if="{{loading}}" class="empty-state">
+    <text>加载中...</text>
+  </view>
+
+  <view wx:elif="{{orders.length === 0}}" class="empty-state">
+    <text class="icon">📋</text>
+    <text>暂无订单</text>
+  </view>
+
+  <block wx:else>
+    <view wx:for="{{orders}}" wx:key="_id" class="card" bindtap="onTapOrder" data-id="{{item._id}}">
+      <view class="order-header">
+        <text class="status-tag status-{{item.status}}">{{item.status === 'pending' ? '待接单' : item.status === 'accepted' ? '进行中' : item.status === 'completed' ? '已完成' : '已取消'}}</text>
+        <text class="order-time">{{item.timeText}}</text>
+      </view>
+      <view wx:for="{{item.items}}" wx:key="menuId" wx:for-item="oi" class="order-item">
+        <text class="oi-name">{{oi.name}}</text>
+        <text class="oi-qty">x{{oi.quantity}}</text>
+      </view>
+      <view wx:if="{{item.status === 'pending' || item.status === 'accepted'}}" class="order-quick-actions">
+        <view wx:if="{{item.status === 'pending'}}" class="quick-btn quick-accept" catchtap="onQuickAction" data-id="{{item._id}}" data-action="accept">接单</view>
+        <view wx:elif="{{item.status === 'accepted'}}" class="quick-btn quick-complete" catchtap="onQuickAction" data-id="{{item._id}}" data-action="complete">完单</view>
+        <view class="quick-btn quick-cancel" catchtap="onQuickCancel" data-id="{{item._id}}">取消</view>
+      </view>
+    </view>
+  </block>
+</view>

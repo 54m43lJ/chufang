@@ -1,0 +1,70 @@
+<view class="container">
+  <view wx:if="{{loading}}" class="empty-state">
+    <text>加载中...</text>
+  </view>
+
+  <view wx:elif="{{categories.length === 0}}" class="empty-state">
+    <text class="icon">🍽️</text>
+    <text>还没有菜品</text>
+  </view>
+
+  <block wx:else>
+    <view wx:for="{{categories}}" wx:key="name" class="category-section">
+      <view class="category-label">{{item.name}}</view>
+      <view wx:for="{{item.items}}" wx:key="_id" wx:for-item="dish" class="card dish-row">
+        <view class="dish-info" bindtap="onTapItem" data-id="{{dish._id}}">
+          <image wx:if="{{dish.thumbUrl}}" src="{{dish.thumbUrl}}" mode="aspectFill" class="dish-thumb" />
+          <view wx:else class="dish-thumb-placeholder">🍽️</view>
+          <view class="dish-text">
+            <view class="dish-name">{{dish.name}}</view>
+            <view class="dish-desc">{{dish.description}}</view>
+          </view>
+        </view>
+        <view class="add-btn" catchtap="onQuickAdd" data-id="{{dish._id}}" data-name="{{dish.name}}">＋</view>
+      </view>
+    </view>
+  </block>
+
+  <!-- 浮动购物车按钮 -->
+  <view class="float-cart-btn" bindtap="onOpenCart">
+    <text class="float-cart-icon">🛒</text>
+    <view wx:if="{{cartCount > 0}}" class="float-cart-badge">{{cartCount}}</view>
+  </view>
+
+  <!-- 购物车弹窗 -->
+  <view wx:if="{{showCart}}" class="cart-overlay" catchtap="onCloseCart">
+    <view class="cart-panel" catchtap="noop">
+      <view class="cart-panel-title">
+        <text>购物车</text>
+        <text wx:if="{{cartItems.length > 0}}" class="cart-clear-btn" catchtap="onClearCart">清空</text>
+      </view>
+
+      <scroll-view scroll-y class="cart-panel-body">
+        <view wx:if="{{cartItems.length === 0}}" class="empty-state">
+          <text>购物车是空的</text>
+        </view>
+
+        <block wx:else>
+          <view wx:for="{{cartItems}}" wx:key="menuId" class="card cart-row">
+            <view class="cart-info">
+              <view class="cart-name">{{item.name}}</view>
+            </view>
+            <view class="quantity-ctrl">
+              <view bindtap="onCartMinus" data-id="{{item.menuId}}">−</view>
+              <text>{{item.quantity}}</text>
+              <view bindtap="onCartPlus" data-id="{{item.menuId}}">＋</view>
+            </view>
+            <text class="cart-row-delete" bindtap="onCartDelete" data-id="{{item.menuId}}">删除</text>
+          </view>
+        </block>
+      </scroll-view>
+
+      <view wx:if="{{cartItems.length > 0}}" class="cart-submit-bar">
+        <text class="cart-submit-total">共 {{cartItems.length}} 种菜品</text>
+        <view class="btn-primary" bindtap="onSubmitOrder">
+          提交订单
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

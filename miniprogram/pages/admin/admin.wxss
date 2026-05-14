@@ -1,0 +1,70 @@
+.admin-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16rpx;
+}
+.admin-count { font-size: 28rpx; color: #999; }
+.invite-btn { padding: 12rpx 28rpx; }
+
+.user-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.user-info { flex: 1; min-width: 0; }
+.user-openid {
+  font-size: 26rpx;
+  font-family: monospace;
+  word-break: break-all;
+  display: block;
+  margin-bottom: 6rpx;
+}
+.user-role {
+  font-size: 22rpx;
+  padding: 2rpx 12rpx;
+  border-radius: 4rpx;
+  display: inline-block;
+}
+.role-user { background: #e8f4fd; color: #0c5460; }
+.role-admin { background: #fce4d6; color: #8a3d18; }
+.user-remove { color: #e74c3c; font-size: 26rpx; margin-left: 16rpx; flex-shrink: 0; }
+
+.invite-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.invite-panel {
+  width: 580rpx;
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 40rpx;
+  text-align: center;
+}
+.invite-title { font-size: 34rpx; font-weight: 600; margin-bottom: 24rpx; }
+
+.role-select {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16rpx;
+  margin-bottom: 24rpx;
+}
+.role-label { font-size: 28rpx; color: #666; }
+.role-btn {
+  font-size: 26rpx;
+  padding: 8rpx 28rpx;
+  border-radius: 6rpx;
+  background: #f5f5f5;
+  color: #666;
+}
+.role-active { background: #e74c3c; color: #fff; }
+
+.qr-image { width: 400rpx; margin: 0 auto; border-radius: 8rpx; }
+.invite-tip { font-size: 24rpx; color: #999; margin-top: 16rpx; }
+.close-btn { margin-top: 16rpx; }

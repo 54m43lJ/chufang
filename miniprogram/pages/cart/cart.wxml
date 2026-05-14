@@ -1,0 +1,28 @@
+<view class="container">
+  <view wx:if="{{cartItems.length === 0}}" class="empty-state">
+    <text class="icon">🛒</text>
+    <text>购物车是空的</text>
+    <view class="btn-outline" style="margin-top:24rpx" bindtap="onGoMenu">去看看菜品</view>
+  </view>
+
+  <block wx:else>
+    <view wx:for="{{cartItems}}" wx:key="menuId" class="card cart-row">
+      <view class="cart-info">
+        <view class="cart-name">{{item.name}}</view>
+      </view>
+      <view class="quantity-ctrl">
+        <view bindtap="onMinus" data-id="{{item.menuId}}">−</view>
+        <text>{{item.quantity}}</text>
+        <view bindtap="onPlus" data-id="{{item.menuId}}">＋</view>
+      </view>
+      <text class="delete-btn" bindtap="onDelete" data-id="{{item.menuId}}">删除</text>
+    </view>
+
+    <view class="submit-bar">
+      <text class="submit-total">共 {{cartItems.length}} 种菜品</text>
+      <view class="btn-primary" bindtap="onSubmit">
+        提交订单
+      </view>
+    </view>
+  </block>
+</view>

@@ -1,0 +1,24 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Node
+node_modules/
+
+# WeChat Mini Program
+miniprogram_npm/
+*.wxvpkg
+
+# Environment / secrets
+.env
+.env.local
+.env.*.local
+
+# Claude
+.claude/

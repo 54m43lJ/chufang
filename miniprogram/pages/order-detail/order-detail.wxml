@@ -1,0 +1,45 @@
+<view wx:if="{{loading}}" class="empty-state">
+  <text>加载中...</text>
+</view>
+
+<view wx:elif="{{order}}" class="container">
+  <view class="card">
+    <view class="status-row">
+      <text class="status-tag status-{{order.status}}">{{
+        order.status === 'pending' ? '待接单' : order.status === 'accepted' ? '进行中' : order.status === 'completed' ? '已完成' : '已取消'
+        }}</text>
+    </view>
+
+    <view class="section-title">订单内容</view>
+    <view wx:for="{{enrichedItems}}" wx:key="menuId" class="order-item"
+          bindtap="onTapItem" data-id="{{item.dishId}}" data-deleted="{{item.deleted}}">
+      <image wx:if="{{item.thumbUrl}}" src="{{item.thumbUrl}}" mode="aspectFill" class="oi-thumb" />
+      <view wx:else class="oi-thumb-placeholder">
+        <text wx:if="{{item.deleted}}">✕</text>
+        <text wx:else>🍽</text>
+      </view>
+      <view class="oi-info">
+        <text class="oi-name {{item.deleted ? 'oi-deleted' : ''}}">{{item.dishName}}</text>
+        <text wx:if="{{item.deleted}}" class="oi-gone">已下架</text>
+      </view>
+      <text class="oi-qty">x{{item.quantity}}</text>
+    </view>
+  </view>
+
+  <view class="actions">
+    <block wx:if="{{order.status === 'pending'}}">
+      <view class="btn-primary" bindtap="onAction" data-action="accept">接单</view>
+      <view class="btn-outline" bindtap="onAction" data-action="cancel">取消订单</view>
+    </block>
+    <block wx:elif="{{order.status === 'accepted'}}">
+      <view class="btn-primary" bindtap="onAction" data-action="complete">完成</view>
+      <view class="btn-outline" bindtap="onAction" data-action="cancel">取消订单</view>
+    </block>
+    <block wx:elif="{{order.status === 'completed'}}">
+      <view class="done-hint">此订单已完成</view>
+    </block>
+    <block wx:elif="{{order.status === 'cancelled'}}">
+      <view class="btn-primary" bindtap="onReorder">重新下单</view>
+    </block>
+  </view>
+</view>

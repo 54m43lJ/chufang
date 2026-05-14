@@ -1,0 +1,42 @@
+.cart-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.cart-info {
+  flex: 1;
+  min-width: 0;
+  margin-right: 16rpx;
+}
+.cart-name {
+  font-size: 30rpx;
+  font-weight: 500;
+}
+
+.delete-btn {
+  color: #e74c3c;
+  font-size: 26rpx;
+  margin-left: 16rpx;
+  flex-shrink: 0;
+}
+
+.submit-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  padding: 24rpx 32rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 -2rpx 8rpx rgba(0,0,0,0.06);
+  padding-bottom: calc(24rpx + env(safe-area-inset-bottom));
+}
+.submit-total {
+  font-size: 28rpx;
+  color: #666;
+}
+.submit-bar .btn-primary {
+  padding: 16rpx 48rpx;
+}

@@ -1,0 +1,87 @@
+<view class="container">
+  <view wx:if="{{isAdmin}}" class="admin-entry" bindtap="onGoAdmin">
+    <text>白名单管理</text>
+    <text class="admin-arrow">›</text>
+  </view>
+  <view class="manage-header">
+    <view class="btn-primary" bindtap="onAdd">＋ 新增菜品</view>
+  </view>
+
+  <view wx:if="{{loading}}" class="empty-state"><text>加载中...</text></view>
+
+  <view wx:elif="{{dishes.length === 0}}" class="empty-state">
+    <text>暂无菜品</text>
+  </view>
+
+  <block wx:else>
+    <view wx:for="{{dishes}}" wx:key="_id" class="card manage-row">
+      <view class="manage-info" bindtap="onEdit" data-id="{{item._id}}">
+        <text class="manage-name">{{item.name}}</text>
+        <text class="manage-cat">{{item.category}} · {{item.images.length || 0}}张图</text>
+      </view>
+      <view class="delete-btn" catchtap="onDelete" data-id="{{item._id}}">删除</view>
+    </view>
+  </block>
+
+  <!-- 表单弹层 -->
+  <view wx:if="{{showForm}}" class="form-overlay" catchtap="onCancelForm">
+    <view class="form-panel" catchtap="noop">
+      <view class="form-title">{{editingId ? '编辑菜品' : '新增菜品'}}</view>
+
+      <view class="form-field">
+        <text class="form-label">名称</text>
+        <input class="form-input" value="{{form.name}}" bindinput="onInputName" placeholder="菜品名称" />
+      </view>
+
+      <view class="form-field">
+        <text class="form-label">分类</text>
+        <picker mode="selector" range="{{categories}}" value="{{pickerIndex}}" bindchange="onPickCategory">
+          <view class="form-picker">{{form.category || '请选择分类'}}</view>
+        </picker>
+      </view>
+
+      <!-- 已有图片（编辑模式） -->
+      <view wx:if="{{existingUids.length > 0}}" class="form-field">
+        <text class="form-label">已有图片（点击设封面，再点删除）</text>
+        <scroll-view scroll-x class="preview-scroll">
+          <view wx:for="{{existingUids}}" wx:key="*this" wx:for-item="uid" wx:for-index="idx" class="preview-item {{removedUids.indexOf(uid) >= 0 ? 'is-removed' : ''}}  {{thumbRef && thumbRef.uid === uid ? 'is-thumb' : ''}}">
+            <image wx:if="{{existingUrls[uid]}}" src="{{existingUrls[uid]}}" mode="aspectFill" class="preview-thumb"
+                   catchtap="onSetExistingThumb" data-uid="{{uid}}" />
+            <view wx:else class="preview-thumb-miss">图</view>
+            <text wx:if="{{removedUids.indexOf(uid) >= 0}}" class="preview-removed-tag">已删除</text>
+            <text wx:elif="{{thumbRef && thumbRef.uid === uid}}" class="thumb-badge-sm">封面</text>
+            <text class="preview-remove" catchtap="onRemoveExisting" data-uid="{{uid}}">✕</text>
+          </view>
+        </scroll-view>
+      </view>
+
+      <!-- 新图片选择网格 -->
+      <view class="form-field">
+        <text class="form-label">图片（最多9张，点击设封面）</text>
+        <view class="image-grid">
+          <view wx:for="{{newImages}}" wx:key="index"
+                class="image-cell {{thumbRef && thumbRef.newIdx === index ? 'is-thumb' : ''}}"
+                bindtap="onSetNewThumb" data-index="{{index}}">
+            <image src="{{item}}" mode="aspectFill" class="image-thumb" />
+            <view class="thumb-badge">封面</view>
+            <text class="image-remove" catchtap="onRemoveNewImage" data-index="{{index}}">✕</text>
+          </view>
+          <view wx:if="{{newImages.length < 9}}" class="image-add-btn" bindtap="onChooseImage">
+            <text class="image-add-icon">＋</text>
+            <text class="image-add-label">添加图片</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="form-field">
+        <text class="form-label">描述</text>
+        <textarea class="form-textarea" value="{{form.description}}" bindinput="onInputDesc" placeholder="菜品描述" />
+      </view>
+
+      <view class="form-btns">
+        <view class="btn-ghost" bindtap="onCancelForm">取消</view>
+        <view class="btn-primary" bindtap="onSubmitForm">保存</view>
+      </view>
+    </view>
+  </view>
+</view>

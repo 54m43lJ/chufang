@@ -1,0 +1,16 @@
+<view class="container">
+  <view class="lock-icon">🔒</view>
+  <view class="title">暂无访问权限</view>
+  <view class="desc">你的账号尚未被加入白名单，请联系管理员添加。</view>
+
+  <view class="openid-card">
+    <view class="openid-label">你的账号标识 (OpenID)</view>
+    <view class="openid-row">
+      <text class="openid-value">{{revealed ? openid : maskedOpenid}}</text>
+      <text class="toggle-btn" bindtap="onToggleReveal">{{revealed ? '隐藏' : '显示'}}</text>
+    </view>
+    <view class="copy-btn" bindtap="onCopy">{{copied ? '已复制' : '复制完整 OpenID'}}</view>
+  </view>
+
+  <view class="tip">请将以上 OpenID 发送给管理员，由管理员在云开发控制台的 whitelist 集合中添加记录。</view>
+</view>

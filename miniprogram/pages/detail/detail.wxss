@@ -1,0 +1,53 @@
+.detail-swiper {
+  width: 100%;
+  height: 400rpx;
+  background: #eee;
+}
+.detail-image {
+  width: 100%;
+  height: 100%;
+}
+.detail-image-placeholder {
+  width: 100%;
+  height: 400rpx;
+  background: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 100rpx;
+}
+
+.detail-name {
+  font-size: 36rpx;
+  font-weight: 600;
+  margin-bottom: 12rpx;
+}
+.detail-category {
+  margin-bottom: 16rpx;
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+.image-count {
+  font-size: 24rpx;
+  color: #999;
+}
+.detail-desc {
+  font-size: 28rpx;
+  color: #666;
+  line-height: 1.6;
+}
+
+.quantity-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 28rpx;
+}
+
+.add-to-cart-btn {
+  width: 100%;
+  margin-top: 40rpx;
+  padding: 24rpx 0;
+  font-size: 32rpx;
+}

@@ -1,0 +1,40 @@
+<view wx:if="{{loading}}" class="empty-state">
+  <text>加载中...</text>
+</view>
+
+<view wx:elif="{{dish}}" class="container">
+  <!-- 图片轮播 -->
+  <swiper wx:if="{{images.length > 0}}"
+          indicator-dots="{{images.length > 1}}"
+          indicator-color="#ccc"
+          indicator-active-color="#e74c3c"
+          class="detail-swiper"
+          circular="{{images.length > 1}}">
+    <swiper-item wx:for="{{images}}" wx:key="index">
+      <image src="{{item}}" mode="aspectFill" class="detail-image" />
+    </swiper-item>
+  </swiper>
+  <view wx:else class="detail-image-placeholder">🍽️</view>
+
+  <view class="card">
+    <view class="detail-name">{{dish.name}}</view>
+    <view class="detail-category">
+      <text class="status-tag status-accepted">{{dish.category}}</text>
+      <text wx:if="{{images.length > 0}}" class="image-count">{{images.length}}张图片</text>
+    </view>
+    <view class="detail-desc">{{dish.description || '暂无描述'}}</view>
+  </view>
+
+  <view class="card quantity-row">
+    <text>数量</text>
+    <view class="quantity-ctrl">
+      <view bindtap="onMinus">−</view>
+      <text>{{quantity}}</text>
+      <view bindtap="onPlus">＋</view>
+    </view>
+  </view>
+
+  <view class="btn-primary add-to-cart-btn" bindtap="onAddToCart">
+    加入购物车 ({{quantity}})
+  </view>
+</view>
