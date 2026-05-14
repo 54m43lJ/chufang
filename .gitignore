@@ -10,6 +10,7 @@ Thumbs.db
 
 # Node
 node_modules/
+package-lock.json
 
 # WeChat Mini Program
 miniprogram_npm/
