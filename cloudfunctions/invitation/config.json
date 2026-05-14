@@ -1,8 +1,8 @@
 {
   "permissions": {
     "openapi": [
-      "wxacode.getUnlimited",
       "wxacode.get"
     ]
-  }
+  },
+  "envVersion": "trial"
 }
