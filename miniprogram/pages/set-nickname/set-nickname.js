@@ -5,6 +5,10 @@ Page({
     nickname: ''
   },
 
+  onShow() {
+    getApp().checkAuth()
+  },
+
   onInputNickname(e) {
     this.setData({ nickname: e.detail.value })
   },
