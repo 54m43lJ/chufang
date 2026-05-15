@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/set-nickname/set-nickname",
     "pages/menu/menu",
     "pages/unauthorized/unauthorized",
     "pages/detail/detail",

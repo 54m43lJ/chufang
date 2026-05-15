@@ -30,6 +30,7 @@ App({
         data: { action: 'claim', data: { token } }
       })
       if (res.result.ok) {
+        this._justClaimed = true
         wx.showToast({ title: '欢迎使用', icon: 'success', duration: 2000 })
       }
     } catch (e) {}
@@ -42,10 +43,11 @@ App({
         name: 'auth',
         data: { action: 'check' }
       })
-      const { allowed, openid, role } = res.result
+      const { allowed, openid, role, id } = res.result
       this.globalData.openid = openid
       this.globalData.allowed = allowed
       this.globalData.role = role || ''
+      this.globalData.whitelistId = id || ''
       this.globalData.authChecked = true
       this._onAuthDone()
     } catch (err) {
@@ -60,7 +62,12 @@ App({
     const pages = getCurrentPages()
     if (pages.length === 1 && pages[0].route === 'pages/index/index') {
       if (this.globalData.allowed) {
-        wx.switchTab({ url: '/pages/menu/menu' })
+        if (this._justClaimed) {
+          this._justClaimed = false
+          wx.redirectTo({ url: '/pages/set-nickname/set-nickname' })
+        } else {
+          wx.switchTab({ url: '/pages/menu/menu' })
+        }
       } else {
         wx.redirectTo({
           url: `/pages/unauthorized/unauthorized?openid=${encodeURIComponent(this.globalData.openid)}`

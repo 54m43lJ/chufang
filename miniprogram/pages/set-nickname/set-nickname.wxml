@@ -1,0 +1,11 @@
+<view class="container">
+  <view class="title">设置昵称</view>
+  <view class="desc">点击下方输入框可快速填入微信昵称</view>
+
+  <input type="nickname" class="nickname-input" value="{{nickname}}" bindinput="onInputNickname" placeholder="点击获取微信昵称" />
+
+  <view class="btns">
+    <view class="btn-primary" bindtap="onConfirm">确认</view>
+    <view class="btn-skip" bindtap="onSkip">跳过</view>
+  </view>
+</view>

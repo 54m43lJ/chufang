@@ -24,7 +24,8 @@ exports.main = async (event) => {
     return {
       allowed: !!caller,
       openid,
-      role: caller ? (caller.role || 'user') : ''
+      role: caller ? (caller.role || 'user') : '',
+      id: caller ? caller._id : ''
     }
   }
 
