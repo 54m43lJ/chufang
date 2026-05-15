@@ -21,7 +21,7 @@
     <block wx:else>
       <view wx:for="{{users}}" wx:key="_id" class="card user-row">
         <view class="user-info">
-          <text class="user-nick">{{item.nickname || '未设昵称'}}</text>
+          <text class="user-nick">{{item.nickname || ''}}</text>
           <text class="user-openid">{{item.openid}}</text>
           <text class="user-role role-{{item.role || 'user'}}">{{item.role === 'admin' ? '管理员' : '用户'}}</text>
         </view>
