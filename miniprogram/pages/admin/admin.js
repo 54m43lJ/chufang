@@ -36,6 +36,14 @@ Page({
     this.loadUsers()
   },
 
+  onPullDownRefresh() {
+    this.loadUsers().then(() => wx.stopPullDownRefresh())
+  },
+
+  onRefresh() {
+    wx.startPullDownRefresh()
+  },
+
   async loadUsers() {
     this.setData({ loading: true })
     try {
@@ -118,7 +126,7 @@ Page({
       await api.addWhitelist(addOpenid.trim(), addNickname.trim(), addRole)
       wx.showToast({ title: '已添加', icon: 'success' })
       this.setData({ showAdd: false })
-      this.loadUsers()
+      wx.startPullDownRefresh()
     } catch (err) {
       wx.showToast({ title: '添加失败', icon: 'none' })
     }

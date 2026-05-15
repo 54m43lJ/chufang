@@ -3,7 +3,10 @@
 
   <block wx:else>
     <view class="admin-header">
-      <text class="admin-count">共 {{users.length}} 位用户</text>
+      <view class="admin-count-row" bindtap="onRefresh">
+        <text class="admin-count">共 {{users.length}} 位用户</text>
+        <text class="refresh-icon">↻</text>
+      </view>
       <view class="header-btns">
         <view class="btn-outline header-btn" bindtap="onOpenAdd">手动添加</view>
         <view class="btn-primary header-btn" bindtap="onGenerateInvite">
