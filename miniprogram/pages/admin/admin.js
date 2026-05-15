@@ -10,7 +10,6 @@ Page({
     qrBase64: '',
     qrTempPath: '',
     inviteRole: 'user',
-    inviteNickname: '',
     generating: false,
 
     // 手动添加
@@ -50,7 +49,6 @@ Page({
 
   /* ====== 生成邀请 ====== */
   onSelectRole(e) { this.setData({ inviteRole: e.currentTarget.dataset.role }) },
-  onInputInviteNick(e) { this.setData({ inviteNickname: e.detail.value }) },
 
   async onGenerateInvite() {
     this.setData({ generating: true })
@@ -60,8 +58,7 @@ Page({
         data: {
           action: 'generate',
           data: {
-            role: this.data.inviteRole,
-            nickname: this.data.inviteNickname
+            role: this.data.inviteRole
           }
         }
       })

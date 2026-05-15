@@ -35,11 +35,6 @@
     <view class="panel" catchtap="noop">
       <view class="panel-title">邀请二维码</view>
 
-      <view class="field-row">
-        <text class="field-label">昵称（可选）</text>
-        <input class="field-input" value="{{inviteNickname}}" bindinput="onInputInviteNick" placeholder="注册后自动填入" />
-      </view>
-
       <view class="role-select">
         <text class="role-label">角色：</text>
         <view class="role-btn {{inviteRole === 'user' ? 'role-active' : ''}}" bindtap="onSelectRole" data-role="user">用户</view>
