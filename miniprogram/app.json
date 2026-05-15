@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/menu/menu",
     "pages/unauthorized/unauthorized",
     "pages/detail/detail",
     "pages/cart/cart",
@@ -22,7 +23,7 @@
     "backgroundColor": "#fff",
     "list": [
       {
-        "pagePath": "pages/index/index",
+        "pagePath": "pages/menu/menu",
         "text": "菜品",
         "iconPath": "images/tab-dishes.png",
         "selectedIconPath": "images/tab-dishes-active.png"

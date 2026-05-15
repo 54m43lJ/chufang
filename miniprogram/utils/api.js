@@ -10,6 +10,12 @@ module.exports = {
   listWhitelist() {
     return call('auth', { action: 'list' })
   },
+  addWhitelist(openid, nickname, role) {
+    return call('auth', { action: 'add', data: { openid, nickname, role } })
+  },
+  renameWhitelist(id, nickname) {
+    return call('auth', { action: 'rename', data: { id, nickname } })
+  },
   removeWhitelist(id) {
     return call('auth', { action: 'remove', data: { id } })
   },
@@ -43,19 +49,5 @@ module.exports = {
   },
   updateOrderStatus(id, status) {
     return call('order', { action: 'updateStatus', data: { id, status } })
-  },
-
-  // Image
-  uploadImage(menuId, index, fileID) {
-    return call('image', { action: 'upload', data: { menuId, index, fileID } })
-  },
-  getImageUrls(menuIds) {
-    return call('image', { action: 'getUrls', data: { menuIds } })
-  },
-  getThumbnailUrl(menuId, index) {
-    return call('image', { action: 'getThumbnailUrl', data: { menuId, index } })
-  },
-  deleteImageDir(menuId) {
-    return call('image', { action: 'deleteDir', data: { menuId } })
   }
 }

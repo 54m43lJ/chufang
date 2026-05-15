@@ -8,11 +8,13 @@ App({
     cartVersion: 0
   },
 
-  onLaunch(options) {
+  onLaunch() {
     wx.cloud.init({
-      env: 'cloud1-0g2b8j7f3e8b5c6d' // 替换为你的云环境 ID
+      env: 'cloud1-0g2b8j7f3e8b5c6d'
     })
+  },
 
+  onShow(options) {
     const token = (options && options.query && options.query.token) || ''
     if (token) {
       this.claimInvitation(token)
@@ -45,10 +47,25 @@ App({
       this.globalData.allowed = allowed
       this.globalData.role = role || ''
       this.globalData.authChecked = true
+      this._onAuthDone()
     } catch (err) {
       console.error('auth check failed:', err)
       this.globalData.authChecked = true
       this.globalData.allowed = false
+      this._onAuthDone()
+    }
+  },
+
+  _onAuthDone() {
+    const pages = getCurrentPages()
+    if (pages.length === 1 && pages[0].route === 'pages/index/index') {
+      if (this.globalData.allowed) {
+        wx.switchTab({ url: '/pages/menu/menu' })
+      } else {
+        wx.redirectTo({
+          url: `/pages/unauthorized/unauthorized?openid=${encodeURIComponent(this.globalData.openid)}`
+        })
+      }
     }
   },
 

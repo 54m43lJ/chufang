@@ -30,6 +30,35 @@ exports.main = async (event) => {
     return { users: res.data }
   }
 
+  if (action === 'add') {
+    const caller = await getCaller(openid)
+    if (!caller || caller.role !== 'admin') return { error: 'forbidden' }
+    if (!data.openid || !data.openid.trim()) return { error: 'openid required' }
+
+    const exists = await db.collection('whitelist').where({ openid: data.openid.trim() }).count()
+    if (exists.total > 0) return { error: 'user already exists' }
+
+    const now = Date.now()
+    const res = await db.collection('whitelist').add({
+      data: {
+        openid: data.openid.trim(),
+        nickname: data.nickname || '',
+        role: data.role || 'user',
+        createdAt: now
+      }
+    })
+    return { id: res._id }
+  }
+
+  if (action === 'rename') {
+    const caller = await getCaller(openid)
+    if (!caller || caller.role !== 'admin') return { error: 'forbidden' }
+    await db.collection('whitelist').doc(data.id).update({
+      data: { nickname: data.nickname || '' }
+    })
+    return { ok: true }
+  }
+
   if (action === 'remove') {
     const caller = await getCaller(openid)
     if (!caller || caller.role !== 'admin') return { error: 'forbidden' }

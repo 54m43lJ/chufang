@@ -1,6 +1,6 @@
 <view class="container">
   <view wx:if="{{isAdmin}}" class="admin-entry" bindtap="onGoAdmin">
-    <text>白名单管理</text>
+    <text>账号管理</text>
     <text class="admin-arrow">›</text>
   </view>
   <view class="manage-header">

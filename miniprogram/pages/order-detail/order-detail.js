@@ -119,7 +119,7 @@ Page({
         if (res.confirm) {
           getApp().mergeToCart(order.items)
           wx.showToast({ title: '已加入购物车', icon: 'success', duration: 1200 })
-          setTimeout(() => wx.switchTab({ url: '/pages/index/index' }), 1200)
+          setTimeout(() => wx.switchTab({ url: '/pages/menu/menu' }), 1200)
         }
       }
     })

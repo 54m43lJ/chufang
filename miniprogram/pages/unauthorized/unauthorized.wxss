@@ -73,7 +73,7 @@
   font-size: 28rpx;
   border-radius: 8rpx;
   padding: 18rpx 0;
-  border: none;
+  text-align: center;
 }
 .copy-btn:active {
   background: #c0392b;

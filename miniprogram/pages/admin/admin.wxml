@@ -4,31 +4,36 @@
   <block wx:else>
     <view class="admin-header">
       <text class="admin-count">共 {{users.length}} 位用户</text>
-      <view class="btn-primary invite-btn" bindtap="onGenerateInvite">
-        <text wx:if="{{!generating}}">生成邀请</text>
-        <text wx:else>生成中...</text>
+      <view class="header-btns">
+        <view class="btn-outline header-btn" bindtap="onOpenAdd">手动添加</view>
+        <view class="btn-primary header-btn" bindtap="onGenerateInvite">
+          <text wx:if="{{!generating}}">生成邀请</text>
+          <text wx:else>生成中...</text>
+        </view>
       </view>
     </view>
 
-    <view wx:if="{{users.length === 0}}" class="empty-state">
-      <text>暂无用户</text>
-    </view>
+    <view wx:if="{{users.length === 0}}" class="empty-state"><text>暂无用户</text></view>
 
     <block wx:else>
       <view wx:for="{{users}}" wx:key="_id" class="card user-row">
         <view class="user-info">
+          <text class="user-nick">{{item.nickname || '未设昵称'}}</text>
           <text class="user-openid">{{item.openid}}</text>
           <text class="user-role role-{{item.role || 'user'}}">{{item.role === 'admin' ? '管理员' : '用户'}}</text>
         </view>
-        <view class="user-remove" catchtap="onRemove" data-id="{{item._id}}" data-openid="{{item.openid}}">移除</view>
+        <view class="user-actions">
+          <view class="action-text" catchtap="onOpenRename" data-id="{{item._id}}">改名</view>
+          <view class="action-text action-remove" catchtap="onRemove" data-id="{{item._id}}" data-openid="{{item.openid}}">移除</view>
+        </view>
       </view>
     </block>
   </block>
 
-  <!-- 邀请弹窗 -->
-  <view wx:if="{{showInvite}}" class="invite-overlay" catchtap="onCloseInvite">
-    <view class="invite-panel" catchtap="noop">
-      <view class="invite-title">邀请二维码</view>
+  <!-- 生成邀请弹窗 -->
+  <view wx:if="{{showInvite}}" class="overlay" catchtap="onCloseInvite">
+    <view class="panel" catchtap="noop">
+      <view class="panel-title">邀请二维码</view>
 
       <view class="role-select">
         <text class="role-label">角色：</text>
@@ -38,7 +43,55 @@
 
       <image wx:if="{{qrBase64}}" src="{{qrBase64}}" mode="widthFix" class="qr-image" />
       <view class="invite-tip">微信扫码即可自动注册（7天有效）</view>
+
+      <view class="qr-actions">
+        <view class="btn-primary qr-btn" bindtap="onSaveImage">保存到相册</view>
+        <view class="btn-outline qr-btn" bindtap="onShareImage">分享给好友</view>
+      </view>
+
       <view class="btn-ghost close-btn" bindtap="onCloseInvite">关闭</view>
+    </view>
+  </view>
+
+  <!-- 手动添加弹窗 -->
+  <view wx:if="{{showAdd}}" class="overlay" catchtap="onCloseAdd">
+    <view class="panel" catchtap="noop">
+      <view class="panel-title">手动添加账号</view>
+
+      <view class="field-row">
+        <text class="field-label">OpenID</text>
+        <input class="field-input" value="{{addOpenid}}" bindinput="onInputAddOpenid" placeholder="粘贴用户 openid" />
+      </view>
+      <view class="field-row">
+        <text class="field-label">昵称</text>
+        <input class="field-input" value="{{addNickname}}" bindinput="onInputAddNick" placeholder="可选" />
+      </view>
+
+      <view class="role-select">
+        <text class="role-label">角色：</text>
+        <view class="role-btn {{addRole === 'user' ? 'role-active' : ''}}" bindtap="onSelectAddRole" data-role="user">用户</view>
+        <view class="role-btn {{addRole === 'admin' ? 'role-active' : ''}}" bindtap="onSelectAddRole" data-role="admin">管理员</view>
+      </view>
+
+      <view class="form-btns">
+        <view class="btn-ghost" bindtap="onCloseAdd">取消</view>
+        <view class="btn-primary" bindtap="onSubmitAdd">添加</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 重命名弹窗 -->
+  <view wx:if="{{showRename}}" class="overlay" catchtap="onCloseRename">
+    <view class="panel" catchtap="noop">
+      <view class="panel-title">修改昵称</view>
+      <view class="field-row">
+        <text class="field-label">昵称</text>
+        <input class="field-input" value="{{renameNickname}}" bindinput="onInputRename" placeholder="输入新昵称" />
+      </view>
+      <view class="form-btns">
+        <view class="btn-ghost" bindtap="onCloseRename">取消</view>
+        <view class="btn-primary" bindtap="onSubmitRename">保存</view>
+      </view>
     </view>
   </view>
 </view>
