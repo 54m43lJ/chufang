@@ -21,13 +21,13 @@
     <block wx:else>
       <view wx:for="{{users}}" wx:key="_id" class="card user-row">
         <view class="user-info">
-          <text class="user-nick">{{item.nickname || '未设昵称'}}</text>
+          <text class="user-nick">{{item.nickname || ''}}</text>
           <text class="user-openid">{{item.openid}}</text>
           <text class="user-role role-{{item.role || 'user'}}">{{item.role === 'admin' ? '管理员' : '用户'}}</text>
         </view>
         <view class="user-actions">
-          <view class="action-text" catchtap="onOpenRename" data-id="{{item._id}}">改名</view>
-          <view class="action-text action-remove" catchtap="onRemove" data-id="{{item._id}}" data-openid="{{item.openid}}">移除</view>
+          <view class="action-text" catchtap="onOpenEdit" data-id="{{item._id}}" data-openid="{{item.openid}}" data-nickname="{{item.nickname}}" data-role="{{item.role || 'user'}}">修改</view>
+          <view class="action-text action-remove" catchtap="onRemove" data-id="{{item._id}}" data-isself="{{item.isSelf ? '1' : '0'}}">移除</view>
         </view>
       </view>
     </block>
@@ -83,17 +83,30 @@
     </view>
   </view>
 
-  <!-- 重命名弹窗 -->
-  <view wx:if="{{showRename}}" class="overlay" catchtap="onCloseRename">
+  <!-- 修改弹窗 -->
+  <view wx:if="{{showEdit}}" class="overlay" catchtap="onCloseEdit">
     <view class="panel" catchtap="noop">
-      <view class="panel-title">修改昵称</view>
+      <view class="panel-title">修改账号</view>
+
+      <view class="field-row">
+        <text class="field-label">OpenID</text>
+        <view class="field-readonly">{{editOpenid}}</view>
+      </view>
+
       <view class="field-row">
         <text class="field-label">昵称</text>
-        <input class="field-input" value="{{renameNickname}}" bindinput="onInputRename" placeholder="输入新昵称" />
+        <input class="field-input" value="{{editNickname}}" bindinput="onInputEditNick" placeholder="输入昵称" />
       </view>
+
+      <view class="role-select">
+        <text class="role-label">角色：</text>
+        <view class="role-btn {{editRole === 'user' ? 'role-active' : ''}}" bindtap="onSelectEditRole" data-role="user">用户</view>
+        <view class="role-btn {{editRole === 'admin' ? 'role-active' : ''}}" bindtap="onSelectEditRole" data-role="admin">管理员</view>
+      </view>
+
       <view class="form-btns">
-        <view class="btn-ghost" bindtap="onCloseRename">取消</view>
-        <view class="btn-primary" bindtap="onSubmitRename">保存</view>
+        <view class="btn-ghost" bindtap="onCloseEdit">取消</view>
+        <view class="btn-primary" bindtap="onSubmitEdit">保存</view>
       </view>
     </view>
   </view>

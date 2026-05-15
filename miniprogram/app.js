@@ -31,6 +31,8 @@ App({
       })
       if (res.result.ok) {
         wx.showToast({ title: '欢迎使用', icon: 'success', duration: 2000 })
+        wx.redirectTo({ url: '/pages/set-nickname/set-nickname' })
+        return
       }
     } catch (e) {}
     this.checkAuth()
@@ -42,10 +44,11 @@ App({
         name: 'auth',
         data: { action: 'check' }
       })
-      const { allowed, openid, role } = res.result
+      const { allowed, openid, role, id } = res.result
       this.globalData.openid = openid
       this.globalData.allowed = allowed
       this.globalData.role = role || ''
+      this.globalData.whitelistId = id || ''
       this.globalData.authChecked = true
       this._onAuthDone()
     } catch (err) {
