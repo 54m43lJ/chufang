@@ -74,9 +74,8 @@ Page({
       })
       const result = res.result
       if (result.qrBase64) {
-        const buf = wx.base64ToArrayBuffer(result.qrBase64)
         const tempPath = `${wx.env.USER_DATA_PATH}/invite_${Date.now()}.jpg`
-        wx.getFileSystemManager().writeFileSync(tempPath, buf, 'binary')
+        wx.getFileSystemManager().writeFileSync(tempPath, result.qrBase64, 'base64')
         this.setData({
           showInvite: true,
           qrBase64: `data:${result.contentType};base64,${result.qrBase64}`,
