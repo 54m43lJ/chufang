@@ -18,10 +18,12 @@ Page({
     addNickname: '',
     addRole: 'user',
 
-    // 重命名
-    showRename: false,
-    renameId: '',
-    renameNickname: ''
+    // 修改
+    showEdit: false,
+    editId: '',
+    editOpenid: '',
+    editNickname: '',
+    editRole: 'user'
   },
 
   onLoad() {
@@ -132,20 +134,20 @@ Page({
     }
   },
 
-  /* ====== 重命名 ====== */
-  onOpenRename(e) {
-    const { id } = e.currentTarget.dataset
-    const user = this.data.users.find(u => u._id === id)
-    this.setData({ showRename: true, renameId: id, renameNickname: user ? (user.nickname || '') : '' })
+  /* ====== 修改 ====== */
+  onOpenEdit(e) {
+    const { id, openid, nickname, role } = e.currentTarget.dataset
+    this.setData({ showEdit: true, editId: id, editOpenid: openid, editNickname: nickname || '', editRole: role })
   },
-  onCloseRename() { this.setData({ showRename: false }) },
-  onInputRename(e) { this.setData({ renameNickname: e.detail.value }) },
+  onCloseEdit() { this.setData({ showEdit: false }) },
+  onInputEditNick(e) { this.setData({ editNickname: e.detail.value }) },
+  onSelectEditRole(e) { this.setData({ editRole: e.currentTarget.dataset.role }) },
 
-  async onSubmitRename() {
+  async onSubmitEdit() {
     try {
-      await api.renameWhitelist(this.data.renameId, this.data.renameNickname.trim())
+      await api.updateWhitelist(this.data.editId, this.data.editNickname.trim(), this.data.editRole)
       wx.showToast({ title: '已修改', icon: 'success' })
-      this.setData({ showRename: false })
+      this.setData({ showEdit: false })
       this.loadUsers()
     } catch (err) {
       wx.showToast({ title: '修改失败', icon: 'none' })
@@ -154,8 +156,8 @@ Page({
 
   /* ====== 移除 ====== */
   onRemove(e) {
-    const { id, openid: targetOpenid } = e.currentTarget.dataset
-    if (targetOpenid === getApp().globalData.openid) {
+    const { id, isself } = e.currentTarget.dataset
+    if (isself === '1') {
       wx.showToast({ title: '不能删除自己', icon: 'none' })
       return
     }

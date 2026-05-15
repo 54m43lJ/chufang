@@ -13,8 +13,8 @@ module.exports = {
   addWhitelist(openid, nickname, role) {
     return call('auth', { action: 'add', data: { openid, nickname, role } })
   },
-  renameWhitelist(id, nickname) {
-    return call('auth', { action: 'rename', data: { id, nickname } })
+  updateWhitelist(id, nickname, role) {
+    return call('auth', { action: 'update', data: { id, nickname, role } })
   },
   removeWhitelist(id) {
     return call('auth', { action: 'remove', data: { id } })

@@ -2,16 +2,17 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #fce4d6;
+  background: #fff;
   padding: 16rpx 24rpx;
   border-radius: 8rpx;
   margin-bottom: 16rpx;
   font-size: 28rpx;
-  color: #8a3d18;
+  color: #333;
 }
-.admin-arrow { font-size: 36rpx; color: #8a3d18; }
+.admin-arrow { font-size: 36rpx; color: #333; }
 
-.manage-header { margin-bottom: 16rpx; text-align: right; }
+.manage-header { margin-bottom: 16rpx; display: flex; justify-content: center; }
+.manage-header .btn-primary { width: 60%; }
 .manage-row { display: flex; align-items: center; justify-content: space-between; }
 .manage-info { flex: 1; min-width: 0; }
 .manage-name { font-size: 30rpx; font-weight: 500; display: block; }

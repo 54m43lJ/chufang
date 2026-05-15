@@ -9,6 +9,11 @@ async function getCaller(openid) {
   return res.data[0]
 }
 
+function maskOpenid(openid) {
+  if (!openid || openid.length <= 10) return openid
+  return openid.slice(0, 6) + '****' + openid.slice(-4)
+}
+
 exports.main = async (event) => {
   const { action, data } = event
   const wxContext = cloud.getWXContext()
@@ -27,7 +32,12 @@ exports.main = async (event) => {
     const caller = await getCaller(openid)
     if (!caller || caller.role !== 'admin') return { error: 'forbidden' }
     const res = await db.collection('whitelist').orderBy('createdAt', 'desc').get()
-    return { users: res.data }
+    const users = res.data.map(u => ({
+      ...u,
+      openid: maskOpenid(u.openid),
+      isSelf: u.openid === openid
+    }))
+    return { users }
   }
 
   if (action === 'add') {
@@ -50,12 +60,13 @@ exports.main = async (event) => {
     return { id: res._id }
   }
 
-  if (action === 'rename') {
+  if (action === 'update') {
     const caller = await getCaller(openid)
     if (!caller || caller.role !== 'admin') return { error: 'forbidden' }
-    await db.collection('whitelist').doc(data.id).update({
-      data: { nickname: data.nickname || '' }
-    })
+    const updateData = {}
+    if (data.nickname !== undefined) updateData.nickname = data.nickname || ''
+    if (data.role) updateData.role = data.role
+    await db.collection('whitelist').doc(data.id).update({ data: updateData })
     return { ok: true }
   }
 
