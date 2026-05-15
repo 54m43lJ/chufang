@@ -63,10 +63,17 @@ exports.main = async (event) => {
 
   if (action === 'update') {
     const caller = await getCaller(openid)
-    if (!caller || caller.role !== 'admin') return { error: 'forbidden' }
+    if (!caller) return { error: 'forbidden' }
+
+    const isAdmin = caller.role === 'admin'
+    const isSelf = caller._id === data.id
+
+    if (!isAdmin && !isSelf) return { error: 'forbidden' }
+
     const updateData = {}
     if (data.nickname !== undefined) updateData.nickname = data.nickname || ''
-    if (data.role) updateData.role = data.role
+    if (isAdmin && data.role) updateData.role = data.role
+
     await db.collection('whitelist').doc(data.id).update({ data: updateData })
     return { ok: true }
   }
